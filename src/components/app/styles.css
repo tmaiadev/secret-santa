@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Norican|Roboto&display=swap');
+
+.app {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  user-select: none;
+
+  --primary-color: #00C067;
+  
+  --secondary-color: #BA1818;
+  --secondary-color-light: #e84646;
+  --secondary-color-dark: #971313;
+
+  --text-color: #FFFFFF;
+  --text-color-alternative: #000000;
+  --text-color-muted: #A3A3A3;
+  
+  --background-color: #F6F6F6;
+  --background-color-alternative: #FFFFFF;
+  --background-color-muted: #E6E6E6;
+}
+
+.app *:focus {
+  outline: var(--secondary-color) dashed 4px;
+  outline-offset: 4px;
+}
+
+.app--no-focus-ring *:focus {
+  outline: none;
+}
+
+.sr-only {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
