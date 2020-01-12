@@ -1,0 +1,20 @@
+.header {
+  color: var(--text-color);
+  background-color: var(--primary-color);
+  padding: 16px;
+}
+
+.header__header {
+  display: grid;
+  grid-template-columns: 32px auto;
+  align-items: center;
+  grid-gap: 16px;
+}
+
+.header__title {
+  margin: 0;
+}
+
+.header__logo {
+  width: 32px;
+}
