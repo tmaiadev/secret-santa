@@ -60,7 +60,10 @@
   .dashboard__main {
     transform: translate(0);
     box-shadow: none;
-    border-left: solid thin var(--background-color-muted);
     position: relative;
+  }
+
+  .dashboard__main {
+    border-left: solid thin var(--background-color-muted);
   }
 }

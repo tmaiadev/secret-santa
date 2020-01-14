@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Header from '../header';
+import Menu from '../menu';
 import TabTrap from '../tabtrap';
 import { subscribe, redirect } from '../../helpers/router';
 import './styles.css';
@@ -40,8 +40,7 @@ const Dashboard = () => {
     <div className={`dashboard ${ currentView === 'main' && 'dashboard--main' }`}>
       <TabTrap onFocus={() => menuRef.current.focus()} />
       <div ref={menuRef} className="dashboard__menu" tabIndex="0">
-        <Header />
-        <button onClick={ () => redirect('123') }>Go To Main</button>
+        <Menu />
         <TabTrap onFocus={() => menuRef.current.focus()} />
       </div>
       <TabTrap onFocus={() => mainRef.current.focus()} />

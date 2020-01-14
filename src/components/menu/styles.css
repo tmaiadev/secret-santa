@@ -1,0 +1,15 @@
+.menu {
+    display: grid;
+    grid-template-rows: min-content auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.menu__content {
+    display: block;
+    overflow: auto;
+    position: relative;
+}
