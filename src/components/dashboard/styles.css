@@ -59,7 +59,6 @@
   .dashboard__menu,
   .dashboard__main {
     transform: translate(0);
-    transition: none;
     box-shadow: none;
     border-left: solid thin var(--background-color-muted);
     position: relative;

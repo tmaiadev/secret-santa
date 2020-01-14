@@ -4,7 +4,7 @@ import Dashboard from '../dashboard';
 import './styles.css';
 
 const App = () => {
-  const [showFocusRing, setShowFocusRing] = useState(true);
+  const [showFocusRing, setShowFocusRing] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {

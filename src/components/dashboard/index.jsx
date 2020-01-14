@@ -7,8 +7,8 @@ import './styles.css';
 
 const Dashboard = () => {
   const [currentView, setCurrentView] = useState('menu');
-  const $menu = useRef();
-  const $main = useRef();
+  const menuRef = useRef();
+  const mainRef = useRef();
 
   useEffect(() => {
     const routerListener = subscribe(route => {
@@ -23,25 +23,34 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const $viewRef = currentView === 'menu'
-      ? $menu
-      : $main;
+    const { current: view } = currentView === 'menu' ? menuRef : mainRef;
+    let hasTransitionStarted = false;
+    
+    view.addEventListener('transitionstart', () => {
+      hasTransitionStarted = true;
+      view.addEventListener('transitionend', () => view.focus(), { once: true });
+    }, { once: true });
 
-    $viewRef.current.focus();
+    setTimeout(() => {
+      if (hasTransitionStarted === false) view.focus();
+    }, 300);
   }, [currentView]);
 
   return (
-    <div className={ `dashboard ${ currentView === 'main' && 'dashboard--main' }` }>
-      <div ref={$menu} className="dashboard__menu" tabIndex="0">
+    <div className={`dashboard ${ currentView === 'main' && 'dashboard--main' }`}>
+      <TabTrap onFocus={() => menuRef.current.focus()} />
+      <div ref={menuRef} className="dashboard__menu" tabIndex="0">
         <Header />
         <button onClick={ () => redirect('123') }>Go To Main</button>
-        <TabTrap onFocus={() => $menu.current.focus()} />
+        <TabTrap onFocus={() => menuRef.current.focus()} />
       </div>
-      <div ref={$main} className="dashboard__main" tabIndex="0">
+      <TabTrap onFocus={() => mainRef.current.focus()} />
+      <div ref={mainRef} className="dashboard__main" tabIndex="0">
         <div className="dashboard__main__no-content">
           No content
+          <button onClick={ () => redirect('') }>Go Back</button>
         </div>
-        <TabTrap onFocus={() => $main.current.focus()} />
+        <TabTrap onFocus={() => mainRef.current.focus()} />
       </div>
     </div>
   );

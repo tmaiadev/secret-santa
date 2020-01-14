@@ -21,8 +21,8 @@
 }
 
 .app *:focus {
-  outline: var(--secondary-color) dashed 4px;
-  outline-offset: 4px;
+  outline-color: var(--secondary-color-light);
+  outline-offset: -4px;
 }
 
 .app--no-focus-ring *:focus {
