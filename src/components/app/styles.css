@@ -20,6 +20,10 @@
   --background-color-muted: #E6E6E6;
 }
 
+.app button {
+  font-family: inherit;
+}
+
 .app *:focus {
   outline-color: var(--secondary-color-light);
   outline-offset: -4px;

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './styles.css';
 
-const Spinner = () => (
+const Spinner = ({ color }) => (
   <div className="spinner">
     <div className="sr-only">Loading...</div>
     <svg
@@ -9,7 +10,7 @@ const Spinner = () => (
       height="38"
       viewBox="0 0 38 38"
       xmlns="http://www.w3.org/2000/svg"
-      stroke="#fff"
+      stroke={ color }
     >
         <g
           fill="none"
@@ -39,6 +40,14 @@ const Spinner = () => (
         </g>
     </svg>
   </div>
-)
+);
+
+Spinner.propTypes = {
+  color: PropTypes.string,
+};
+
+Spinner.defaultProps = {
+  color: '#FFF'
+};
 
 export default Spinner;
