@@ -1,21 +1,26 @@
 .header {
-  color: var(--text-color);
   background-color: var(--primary-color);
-  padding: 16px;
-  padding-bottom: 0;
+  color: var(--text-color);
+  padding-top: 16px;
 }
 
-.header__header {
+.header__container {
   display: grid;
   grid-template-columns: 32px auto;
   align-items: center;
   grid-gap: 16px;
 }
 
+.header__container--no-logo {
+  grid-template-columns: auto;
+}
+
 .header__title {
   margin: 0;
   font-family: 'Norican', cursive;
   text-shadow: -1px 1px #000;
+  white-space: nowrap;
+  font-size: 2em;
 }
 
 .header__logo {

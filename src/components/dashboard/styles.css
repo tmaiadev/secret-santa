@@ -62,8 +62,4 @@
     box-shadow: none;
     position: relative;
   }
-
-  .dashboard__main {
-    border-left: solid thin var(--background-color-muted);
-  }
 }

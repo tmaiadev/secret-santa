@@ -1,0 +1,47 @@
+.input {
+  display: grid;
+  grid-gap: 4px;
+}
+
+.input__label {
+  display: block;
+  padding: 0px 4px;
+}
+
+.input__input {
+  display: block;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, .3);
+  padding: 0 16px;
+  font-size: 14px;
+  box-sizing: border-box;
+  will-change: transform;
+  transition:
+    translate .2s linear,
+    box-shadow .2s linear;
+  outline: none;
+}
+
+.input__input:focus {
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, .3);
+  transform: translateY(-1px);
+}
+
+.input__input--textarea {
+  height: 100px;
+  padding: 16px;
+}
+
+.input__datetime {
+  padding: 0;
+  border: 0;
+}
+
+.input__datetime-grid {
+  display: grid;
+  grid-template-columns: 1fr  1fr 2fr;
+  grid-gap: 16px;
+}

@@ -1,14 +1,12 @@
 const listeners = [];
 
 const callListeners = () => listeners.forEach(listener => listener.callback(getRoute()));
+const sanitizeURI = uri => uri.replace(/^\//, '');
 
-export const getRoute = () => window
-  .location
-  .pathname
-  .replace(/^\//, '');
+export const getRoute = () => sanitizeURI(window.location.pathname);
 
 export const redirect = url => {
-  window.history.pushState(null, null, `/${url}`);
+  window.history.pushState(null, null, `/${sanitizeURI(url)}`);
   callListeners();
 };
 

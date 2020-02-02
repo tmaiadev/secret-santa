@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Menu from '../menu';
 import TabTrap from '../tabtrap';
-import { subscribe, redirect } from '../../helpers/router';
+import EventForm from '../event-form';
+import { subscribe } from '../../helpers/router';
 import './styles.css';
 
 const Dashboard = () => {
@@ -10,20 +11,32 @@ const Dashboard = () => {
   const menuRef = useRef();
   const mainRef = useRef();
 
+  const getContent = (view) => {
+    switch (view) {
+      case 'menu':
+        return (
+          <div className="dashboard__main__no-content">
+            No content
+          </div>
+        );
+
+      case 'new':
+        return <EventForm />;
+
+      default:
+        return <div>Event</div>;
+    }
+  }
+
   useEffect(() => {
-    const routerListener = subscribe(route => {
-      if (route) {
-        setCurrentView('main');
-      } else {
-        setCurrentView('menu');
-      }
-    });
-  
+    const routerListener = subscribe(route => setCurrentView(route || 'menu'));
     return () => routerListener.unsubscribe();
   }, []);
 
   useEffect(() => {
-    const { current: view } = currentView === 'menu' ? menuRef : mainRef;
+    const { current: view } = currentView === 'menu'
+      ? menuRef 
+      : mainRef;
     let hasTransitionStarted = false;
     
     view.addEventListener('transitionstart', () => {
@@ -37,7 +50,7 @@ const Dashboard = () => {
   }, [currentView]);
 
   return (
-    <div className={`dashboard ${ currentView === 'main' && 'dashboard--main' }`}>
+    <div className={`dashboard ${ currentView !== 'menu' && 'dashboard--main' }`}>
       <TabTrap onFocus={() => menuRef.current.focus()} />
       <div ref={menuRef} className="dashboard__menu" tabIndex="0">
         <Menu />
@@ -45,10 +58,7 @@ const Dashboard = () => {
       </div>
       <TabTrap onFocus={() => mainRef.current.focus()} />
       <div ref={mainRef} className="dashboard__main" tabIndex="0">
-        <div className="dashboard__main__no-content">
-          No content
-          <button onClick={ () => redirect('') }>Go Back</button>
-        </div>
+        {getContent(currentView)}
         <TabTrap onFocus={() => mainRef.current.focus()} />
       </div>
     </div>
