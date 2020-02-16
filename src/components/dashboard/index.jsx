@@ -1,76 +1,69 @@
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import Menu from '../menu';
-import TabTrap from '../tabtrap';
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
+import { Switch, Route, useHistory } from 'react-router-dom';
+
 import EventForm from '../event-form';
-import { subscribe } from '../../helpers/router';
-import './styles.css';
+import Menu from '../menu';
+import { styleAbsoluteStretch } from '../../styles';
 
-const Dashboard = () => {
-  const [currentView, setCurrentView] = useState('menu');
-  const menuRef = useRef();
-  const mainRef = useRef();
+const StyledShell = styled.div`
+  ${ styleAbsoluteStretch }
 
-  const getContent = (view) => {
-    switch (view) {
-      case 'menu':
-        return (
-          <div className="dashboard__main__no-content">
-            No content
-          </div>
-        );
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 320px auto;
+  }
+`;
 
-      case 'new':
-        return <EventForm />;
+const StyledCell = styled.div`
+  -webkit-overflow-scrolling: touch;
+  display: ${({ active }) => active ? 'block' : 'none'};
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
 
-      default:
-        return <div>Event</div>;
+  @media (min-width: 768px) {
+    display: block;
+
+    ${({ borderLeft }) => borderLeft
+      && css`
+        border-left: solid thin rgba(0, 0, 0, .3);
+      `
     }
   }
+`;
+
+const Dashboard = () => {
+  const [main, setMain] = useState(false);
+  const { location: { pathname } } = useHistory();
 
   useEffect(() => {
-    const routerListener = subscribe(route => setCurrentView(route || 'menu'));
-    return () => routerListener.unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const { current: view } = currentView === 'menu'
-      ? menuRef 
-      : mainRef;
-    let hasTransitionStarted = false;
-    
-    view.addEventListener('transitionstart', () => {
-      hasTransitionStarted = true;
-      view.addEventListener('transitionend', () => view.focus(), { once: true });
-    }, { once: true });
-
-    setTimeout(() => {
-      if (hasTransitionStarted === false) view.focus();
-    }, 300);
-  }, [currentView]);
+    setMain(pathname.replace(/^\//, ''));
+  }, [pathname]);
 
   return (
-    <div className={`dashboard ${ currentView !== 'menu' && 'dashboard--main' }`}>
-      <TabTrap onFocus={() => menuRef.current.focus()} />
-      <div ref={menuRef} className="dashboard__menu" tabIndex="0">
+    <StyledShell>
+      <StyledCell active={!main}>
         <Menu />
-        <TabTrap onFocus={() => menuRef.current.focus()} />
-      </div>
-      <TabTrap onFocus={() => mainRef.current.focus()} />
-      <div ref={mainRef} className="dashboard__main" tabIndex="0">
-        {getContent(currentView)}
-        <TabTrap onFocus={() => mainRef.current.focus()} />
-      </div>
-    </div>
+      </StyledCell>
+      <StyledCell active={main} borderLeft>
+        <Switch>
+          <Route path="/new">
+            <EventForm />
+          </Route>
+          <Route path="/edit/:id">
+            EDIT
+          </Route>
+          <Route path="/:id">
+            EVENT
+          </Route>
+          <Route path="/">
+            NO CONTENT
+          </Route>
+        </Switch>
+      </StyledCell>
+    </StyledShell>
   );
 };
-
-Dashboard.propTypes = {
-  user: PropTypes.shape({
-    uid: PropTypes.string,
-    displayName: PropTypes.string,
-    photoUrl: PropTypes.string
-  }).isRequired
-}
 
 export default Dashboard;

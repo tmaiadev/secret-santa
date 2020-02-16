@@ -1,57 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import Button from '../button';
+import React from 'react';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Fab from '@material-ui/core/Fab';
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import Header from '../header';
-import Spinner from '../spinner';
-import Tabs, { TabPanel } from '../tabs';
-import { redirect } from '../../helpers/router';
-import './styles.css';
+
+const NewEventFab = styled(Fab)`
+  & svg {
+    margin-right: 8px;
+  }
+
+  &.MuiFab-extended {
+    bottom: 16px;
+    position: absolute;
+    right: 16px;
+  }
+`;
 
 const Menu = () => {
-    const [loading, setLoading] = useState(true);
-    const [currentTab, setCurrentTab] = useState('all-events');
+  const history = useHistory();
 
-    useEffect(() => {
-        setLoading(false);
-    }, []);
+  const onNewEventClick = () => history.push('/new');
 
-    return (
-        <div className="menu">
-            <Header />
-            <div className="menu__content">
-                {
-                    loading
-                        ? (
-                            <div className="menu__loading">
-                                <Spinner color={'var(--primary-color)'} />
-                            </div>
-                        )
-                        : (
-                            <Tabs
-                                currentTab={currentTab}
-                                onChange={tabId => setCurrentTab(tabId)}
-                                title="Events"
-                            >
-                                <TabPanel
-                                    id="all-events"
-                                    title="All Events"
-                                >
-                                    ALL EVENTS
-                                </TabPanel>
-                                <TabPanel
-                                    id="my-events"
-                                    title="My Events"
-                                >
-                                    MY EVENTS
-                                </TabPanel>
-                            </Tabs>
-                        )
-                }
-            </div>
-            <Button fab onClick={() => redirect('new')}>
-                +
-            </Button>
-        </div>
-    )
+  return (
+    <>
+      <Header title="Secret Santa" />
+      <NewEventFab
+        color="secondary"
+        onClick={onNewEventClick}
+        variant="extended"
+      >
+        <AddCircleIcon />
+        New Event
+      </NewEventFab>
+    </>
+  )
 };
 
 export default Menu;

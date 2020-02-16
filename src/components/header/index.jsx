@@ -1,43 +1,64 @@
-import React, { createElement } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Container from '../container';
-import './styles.css';
+import AppBar from '@material-ui/core/AppBar';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
+import styled from 'styled-components';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
-const Header = ({ title, logo, headingLevel }) => {
-  const heading = createElement(
-    `h${headingLevel}`,
-    { className: 'header__title' },
-    title,
-  );
+import { StyledContainer } from '../../styles';
 
+const StyledAppBar = styled(AppBar)`
+  position: sticky !important;
+  top: 0;
+`;
+
+const StyledTitle = styled(Typography)`
+  &.MuiTypography-h1 {
+    font-family: Norican, cursive;
+    font-size: 30px;
+    color: #FFF;
+    text-shadow: 1px 1px #000;
+  }
+`;
+
+const StyledIconButton = styled(IconButton)`
+  &.MuiIconButton-root {
+    color: #FFF;
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+`;
+
+const Header = ({ title, onReturn }) => {
   return (
-    <header className="header">
-      <Container>
-        <div className={`header__container ${logo === false && 'header__container--no-logo'}`}>
-          {logo && (
-            <img
-              src="/logo.png"
-              className="header__logo"
-              alt="Secret Santa Logo"
-            />
-          )}
-          {heading}
-        </div>
-      </Container>
-    </header>
-  )
+    <StyledAppBar position="static">
+      <StyledContainer>
+        <Toolbar>
+          {onReturn && 
+            (
+              <StyledIconButton
+                aria-label="Return to Menu"
+                onClick={onReturn}
+              >
+                <ArrowBackIcon />
+              </StyledIconButton>
+            )}
+          <StyledTitle variant="h1">
+            {title}
+          </StyledTitle>
+        </Toolbar>
+      </StyledContainer>
+    </StyledAppBar>
+  );
 };
 
 Header.propTypes = {
-  title: PropTypes.string,
-  logo: PropTypes.bool,
-  headingLevel: PropTypes.oneOf([1, 2]),
-};
-
-Header.defaultProps = {
-  title: 'Secret Santa',
-  logo: true,
-  headingLevel: 1,
+  title: PropTypes.string.isRequired,
+  onReturn: PropTypes.func,
 };
 
 export default Header;
