@@ -16,10 +16,13 @@ const StyledAppBar = styled(AppBar)`
 
 const StyledTitle = styled(Typography)`
   &.MuiTypography-h1 {
+    color: #FFF;
     font-family: Norican, cursive;
     font-size: 30px;
-    color: #FFF;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-shadow: 1px 1px #000;
+    white-space: nowrap;
   }
 `;
 
