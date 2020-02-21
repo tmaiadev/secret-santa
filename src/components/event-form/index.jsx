@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 import { useHistory } from 'react-router-dom';
 
 import Header from '../header';
+import DialogContext, { ACTION_TYPES as DIALOG_ACTION_TYPES } from '../../helpers/dialogContext';
 
 const StyledForm = styled.form`
   padding: 32px 16px;
@@ -49,12 +45,10 @@ const tomorrowAtEight = () => {
   return date;
 };
 
-const formValidationError = (field, message) => {
-  return {
-    field,
-    message
-  };
-};
+const formValidationError = (field, message) => ({
+  field,
+  message
+});
 
 const DEFAULT_FORM_DATA = {
   name: {
@@ -75,11 +69,9 @@ const NAME_HELPER_TEXT = "e.g. Office Christmas Party, Family gathering";
 const DESCRIPTION_HELPER_TEXT = "e.g. Address, price range, rules";
 
 const EventForm = () => {
-  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
+  const { dispatchDialog } = useContext(DialogContext);
   const history = useHistory();
-  
-  const closeConfirmationDialog = () => setShowConfirmationDialog(false);
 
   const onChange = ({ target: { id, value } }) => {
     setFormData({
@@ -91,8 +83,17 @@ const EventForm = () => {
     });
   };
 
-  const onReturn = () => history.push('/');
-  
+  const onReturn = () => {
+    dispatchDialog({
+      type: DIALOG_ACTION_TYPES.OPEN,
+      payload: {
+        title: 'Cancel Event',
+        body: 'Are you sure you want to cancel?',
+        confirmButtonCallback: () => history.push('/')
+      }
+    });
+  }
+
   const onSubmit = evt => {
     evt.preventDefault();
 
@@ -108,7 +109,14 @@ const EventForm = () => {
       if (isNaN(Date.parse(datetime.value)))
         throw formValidationError('datetime', 'Invalid date');
 
-      setShowConfirmationDialog(true);
+      dispatchDialog({
+        type: DIALOG_ACTION_TYPES.OPEN,
+        payload: {
+          title: 'New Event',
+          body: 'Are you sure you want to proceed? You can edit the event later.',
+          confirmButtonCallback: () => alert(1)
+        }
+      });
     } catch (e) {
       const { field, message } = e;
 
@@ -130,6 +138,7 @@ const EventForm = () => {
       />
       <StyledForm autoComplete="off" onSubmit={onSubmit}>
         <StyledTextField
+          autoFocus
           defaultValue={formData.name.value}
           error={formData.name.error}
           helperText={formData.name.error || NAME_HELPER_TEXT}
@@ -172,30 +181,6 @@ const EventForm = () => {
           </Button>
         </StyledCtaWrapper>
       </StyledForm>
-      <Dialog
-        aria-describedby="alert-dialog-description"
-        aria-labelledby="alert-dialog-title"
-        onClose={closeConfirmationDialog}
-        open={showConfirmationDialog}
-      >
-        <DialogTitle id="alert-dialog-title">
-          Create new event
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to continue? Don't worry, you
-            can edit the event later.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeConfirmationDialog}>
-            Cancel
-          </Button>
-          <Button onClick={closeConfirmationDialog} color="primary" autoFocus>
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };
