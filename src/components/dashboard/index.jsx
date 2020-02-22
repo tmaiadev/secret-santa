@@ -4,6 +4,7 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 
 import EventForm from '../event-form';
 import Menu from '../menu';
+import { PRIMARY_COLOR } from '../../constants';
 import { styleAbsoluteStretch } from '../../styles';
 
 const StyledShell = styled.div`
@@ -33,6 +34,22 @@ const StyledCell = styled.div`
   }
 `;
 
+const StyledNoContent = styled.div`
+  align-items: center;
+  background-color: ${ PRIMARY_COLOR };
+  background-image: url('/wallpaper.png');
+  background-position: center center;
+  box-shadow: inset 1px -3px 3px rgb(255,255,255);
+  display: flex;
+  filter: opacity(.6) grayscale(1) invert(1);
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+`;
+
 const Dashboard = () => {
   const [main, setMain] = useState(false);
   const { location: { pathname } } = useHistory();
@@ -58,7 +75,7 @@ const Dashboard = () => {
             EVENT
           </Route>
           <Route path="/">
-            NO CONTENT
+            <StyledNoContent />
           </Route>
         </Switch>
       </StyledCell>
