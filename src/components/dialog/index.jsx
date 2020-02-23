@@ -10,9 +10,12 @@ import Context, { ACTION_TYPES } from '../../helpers/dialogContext';
 
 export default () => {
   const { dialog, dispatchDialog } = useContext(Context);
-  const { cancelButtonCallback, confirmButtonCallback } = dialog;
+  const { closeCallback, cancelButtonCallback, confirmButtonCallback } = dialog;
 
-  const dispatchClose = () => dispatchDialog({ type: ACTION_TYPES.CLOSE });
+  const dispatchClose = () => {
+    if (closeCallback) closeCallback();
+    dispatchDialog({ type: ACTION_TYPES.CLOSE });
+  }
 
   const closeDialog = () => {
     if (cancelButtonCallback) cancelButtonCallback();

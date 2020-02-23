@@ -26,6 +26,7 @@ const dialogInitialState = {
   open: false,
   title: '',
   body: '',
+  closeCallback: null,
   confirmButtonShow: true,
   confirmButtonText: 'OK',
   confirmButtonCallback: null,
@@ -41,6 +42,7 @@ const dialogReducer = (state, action) => {
     case DIALOG_ACTION_TYPES.OPEN:
       return {
         ...state,
+        closeCallback: null,
         confirmButtonShow: true,
         confirmButtonText: 'OK',
         confirmButtonCallback: null,
@@ -66,10 +68,33 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [dialog, dispatchDialog] = useReducer(dialogReducer, dialogInitialState);
 
+  const alert = (title, body, closeCallback = null) => {
+    dispatchDialog({
+      type: DIALOG_ACTION_TYPES.OPEN,
+      payload: {
+        title,
+        body,
+        closeCallback,
+        cancelButtonShow: false,
+      }
+    });
+  };
+
+  const confirm = (title, body, confirmButtonCallback) => {
+    dispatchDialog({
+      type: DIALOG_ACTION_TYPES.OPEN,
+      payload: {
+        title,
+        body,
+        confirmButtonCallback
+      }
+    });
+  };
+
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <DialogContext.Provider value={{ dialog, dispatchDialog }}>
+        <DialogContext.Provider value={{ dialog, dispatchDialog, alert, confirm }}>
           <UserContext.Provider value={{ user, setUser }}>
             {user
               ? <Dashboard />

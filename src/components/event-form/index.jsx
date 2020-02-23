@@ -1,11 +1,14 @@
 import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 import { useHistory } from 'react-router-dom';
 
 import Header from '../header';
-import DialogContext, { ACTION_TYPES as DIALOG_ACTION_TYPES } from '../../helpers/dialogContext';
+import DialogContext from '../../helpers/dialogContext';
+import UserContext from '../../helpers/userContext';
+import { db } from '../../helpers/firebase';
 
 const StyledForm = styled.form`
   padding: 32px 16px;
@@ -70,8 +73,35 @@ const DESCRIPTION_HELPER_TEXT = "e.g. Address, price range, rules";
 
 const EventForm = () => {
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
-  const { dispatchDialog } = useContext(DialogContext);
+  const [showSubmitSpinner, setShowSubmitSpinner] = useState(false);
+  const { alert, confirm } = useContext(DialogContext);
+  const { user } = useContext(UserContext);
   const history = useHistory();
+  
+  const addEventToDatabase = async () => {
+    const { uid, displayName, photoURL } = user;
+    const host = { uid, displayName, photoURL };
+
+    const newEvent = {
+      name: formData.name.value,
+      description: formData.description.value,
+      datetime: formData.datetime.value,
+      host,
+      participants: [host]
+    };
+
+    try {
+      const { id } = await db.collection('events').add(newEvent);
+
+      history.push(`/${ id }`);
+    } catch (_) {
+      alert(
+        'Somethign went wrong!',
+        'Verify your Internet connection and try again',
+        () => setShowSubmitSpinner(false)
+      );
+    }
+  }
 
   const onChange = ({ target: { id, value } }) => {
     setFormData({
@@ -84,18 +114,16 @@ const EventForm = () => {
   };
 
   const onReturn = () => {
-    dispatchDialog({
-      type: DIALOG_ACTION_TYPES.OPEN,
-      payload: {
-        title: 'Cancel Event',
-        body: 'Are you sure you want to cancel?',
-        confirmButtonCallback: () => history.push('/')
-      }
-    });
+    confirm(
+      'Cancel Event',
+      'Are you sure you want to cancel?',
+      () => history.push('/')
+    );
   }
 
   const onSubmit = evt => {
     evt.preventDefault();
+    setShowSubmitSpinner(true);
 
     const { name, datetime } = formData;
 
@@ -109,14 +137,11 @@ const EventForm = () => {
       if (isNaN(Date.parse(datetime.value)))
         throw formValidationError('datetime', 'Invalid date');
 
-      dispatchDialog({
-        type: DIALOG_ACTION_TYPES.OPEN,
-        payload: {
-          title: 'New Event',
-          body: 'Are you sure you want to proceed? You can edit the event later.',
-          confirmButtonCallback: () => alert(1)
-        }
-      });
+      confirm(
+        'New Event',
+        'Are you sure you want to proceed? You can edit the event later',
+        addEventToDatabase
+      );
     } catch (e) {
       const { field, message } = e;
 
@@ -127,6 +152,8 @@ const EventForm = () => {
           error: message
         }
       });
+
+      setShowSubmitSpinner(false);
     }
   };
   
@@ -176,7 +203,18 @@ const EventForm = () => {
             type="submit"
             variant="contained"
             color="secondary"
+            disabled={showSubmitSpinner}
           >
+            {showSubmitSpinner
+              && (
+                <>
+                  <CircularProgress
+                    color="inherit"
+                    size={20}
+                  />
+                  &nbsp;
+                </>
+              )}
             Save
           </Button>
         </StyledCtaWrapper>
