@@ -2,6 +2,7 @@
 import React, { useState, useReducer } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import Dashboard from '../dashboard';
 import Dialog from '../dialog';
@@ -9,7 +10,6 @@ import DialogContext, { ACTION_TYPES as DIALOG_ACTION_TYPES } from '../../helper
 import Login from '../login';
 import UserContext from '../../helpers/userContext';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../constants';
-import { ThemeProvider } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   palette: {
@@ -100,8 +100,8 @@ const App = () => {
               ? <Dashboard />
               : <Login />
             }
+            <Dialog />
           </UserContext.Provider>
-          <Dialog />
         </DialogContext.Provider>
       </ThemeProvider>
     </Router>

@@ -1,41 +1,31 @@
 import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import styled from 'styled-components';
-import TextField from '@material-ui/core/TextField';
 import { useHistory } from 'react-router-dom';
 
 import Header from '../header';
 import DialogContext from '../../helpers/dialogContext';
 import UserContext from '../../helpers/userContext';
 import { db } from '../../helpers/firebase';
-
-const StyledForm = styled.form`
-  padding: 32px 16px;
-  margin: 0 auto;
-  max-width: 768px;
-
-  & > * {
-    margin-bottom: 32px !important;
-
-    &:last-child {
-      margin-bottom: 0 !important;
-    }
-  }
-`;
-
-const StyledTextField = styled(TextField)`
-  width: 100%;
-`;
-
-const StyledCtaWrapper = styled.div`
-  text-align: right;
-`;
+import {
+  StyledForm,
+  StyledTextField,
+  StyledCtaWrapper
+} from './styles';
 
 const dateToStr = date => 
   date
     .toISOString()
     .replace(/\.\d+Z?$/, '');
+
+const formatString = str => {
+  const firstLetter = str
+    .trim()
+    .substr(0, 1)
+    .toUpperCase();
+
+  return `${firstLetter}${str.substr(1)}`;
+};
 
 const tomorrowAtEight = () => {
   const date = new Date();
@@ -101,13 +91,13 @@ const EventForm = () => {
         () => setShowSubmitSpinner(false)
       );
     }
-  }
+  };
 
   const onChange = ({ target: { id, value } }) => {
     setFormData({
       ...formData,
       [id]: {
-        value,
+        value: formatString(value),
         error: null
       }
     });
@@ -119,7 +109,7 @@ const EventForm = () => {
       'Are you sure you want to cancel?',
       () => history.push('/')
     );
-  }
+  };
 
   const onSubmit = evt => {
     evt.preventDefault();
