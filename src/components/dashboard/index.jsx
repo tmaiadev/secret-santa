@@ -9,6 +9,7 @@ import { styleAbsoluteStretch } from '../../styles';
 
 const StyledShell = styled.div`
   ${ styleAbsoluteStretch }
+  background-color: #F5F5F5;
 
   @media (min-width: 768px) {
     display: grid;
