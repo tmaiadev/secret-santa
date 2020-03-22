@@ -35,11 +35,10 @@ const Menu = () => {
   const onNewEventClick = () => history.push('/new');
 
   useEffect(() => {
-    db
+    const unsubscribe = db
       .collection('events')
-      .where('host.uid', '==', user.uid)
-      .get()
-      .then(querySnapshot => {
+      .where(`participants.${ user.uid }.uid`, '==', user.uid)
+      .onSnapshot(querySnapshot => {
         const events = [];
 
         querySnapshot.forEach((doc) => {
@@ -50,8 +49,9 @@ const Menu = () => {
         });
 
         setEvents(events);
-      })
-      .catch(e => console.log(e));
+      });
+    
+    return () => unsubscribe();
   }, [user.uid]);
 
   return (

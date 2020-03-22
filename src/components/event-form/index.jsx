@@ -69,6 +69,8 @@ const EventForm = () => {
   const history = useHistory();
   
   const addEventToDatabase = async () => {
+    setShowSubmitSpinner(true);
+
     const { uid, displayName, photoURL } = user;
     const host = { uid, displayName, photoURL };
 
@@ -77,7 +79,9 @@ const EventForm = () => {
       description: formData.description.value,
       datetime: formData.datetime.value,
       host,
-      participants: [host]
+      participants: {
+        [host.uid]: host
+      },
     };
 
     try {
@@ -113,7 +117,6 @@ const EventForm = () => {
 
   const onSubmit = evt => {
     evt.preventDefault();
-    setShowSubmitSpinner(true);
 
     const { name, datetime } = formData;
 
@@ -142,8 +145,6 @@ const EventForm = () => {
           error: message
         }
       });
-
-      setShowSubmitSpinner(false);
     }
   };
   

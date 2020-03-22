@@ -69,25 +69,29 @@ const App = () => {
   const [dialog, dispatchDialog] = useReducer(dialogReducer, dialogInitialState);
 
   const alert = (title, body, closeCallback = null) => {
-    dispatchDialog({
-      type: DIALOG_ACTION_TYPES.OPEN,
-      payload: {
-        title,
-        body,
-        closeCallback,
-        cancelButtonShow: false,
-      }
+    requestAnimationFrame(() => {
+      dispatchDialog({
+        type: DIALOG_ACTION_TYPES.OPEN,
+        payload: {
+          title,
+          body,
+          closeCallback,
+          cancelButtonShow: false,
+        }
+      });
     });
   };
 
   const confirm = (title, body, confirmButtonCallback) => {
-    dispatchDialog({
-      type: DIALOG_ACTION_TYPES.OPEN,
-      payload: {
-        title,
-        body,
-        confirmButtonCallback
-      }
+    requestAnimationFrame(() => {
+      dispatchDialog({
+        type: DIALOG_ACTION_TYPES.OPEN,
+        payload: {
+          title,
+          body,
+          confirmButtonCallback
+        }
+      });
     });
   };
 
