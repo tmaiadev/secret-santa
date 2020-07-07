@@ -1,0 +1,12 @@
+.header {
+	background-color: var(--surface-color-1);
+}
+
+.header__logo {
+	text-align: center;
+	padding: 16px;
+}
+
+.header__action {
+	text-align: center;
+}

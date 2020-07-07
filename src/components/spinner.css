@@ -1,0 +1,22 @@
+.spinner {
+	display: inline;
+	animation-name: spinnerAnimation;
+	animation-duration: 3s;
+	animation-fill-mode: both;
+	animation-iteration-count: infinite;
+	will-change: transform;
+}
+
+@keyframes spinnerAnimation {
+	33% {
+		transform: rotate(0deg);
+	}
+
+	66% {
+		transform: rotate(180deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
