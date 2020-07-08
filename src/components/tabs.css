@@ -1,0 +1,24 @@
+.tab-list {
+	display: inline-flex;
+}
+
+.tab-list > *:not(:last-child) {
+	margin-right: 8px;
+}
+
+.tab {
+	background-color: transparent;
+	cursor: pointer;
+	height: 40px;
+	padding: 0 8px;
+	border: 0;
+	border-bottom: solid thick transparent;
+	box-sizing: border-box;
+	min-width: 80px;
+	color: var(--text-color-1);
+	font: var(--font-serif);
+}
+
+.tab--active {
+	border-bottom: solid thick var(--primary-color);
+}

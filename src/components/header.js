@@ -4,12 +4,12 @@ import Logo from './logo';
 
 import './header.css';
 
-const Header = () => (
+const Header = ({ children }) => (
 	<div className="header">
 		<div className="header__logo">
 			<Logo />
 		</div>
-		<div className="header__action">...</div>
+		<div className="header__action">{children}</div>
 	</div>
 );
 
