@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
+import Container from '../components/container';
 import Header from '../components/header';
+import PageLayout, { PageBody } from '../components/page-layout';
 import Tabs, { TabPanel } from '../components/tabs';
 
 const TABS = [
@@ -22,20 +24,24 @@ const Dashboard = () => {
 	const [ activeTab, setActiveTab ] = useState(TABS[0].key);
 
 	return (
-		<div className="dashboard-page">
+		<PageLayout>
 			<Header>
 				<Tabs activeTabKey={activeTab} tabs={TABS} onChange={setActiveTab} label="Filters" />
 			</Header>
-			<TabPanel activeTabKey={activeTab} tabKey="upcoming">
-				Upcoming
-			</TabPanel>
-			<TabPanel activeTabKey={activeTab} tabKey="sorted">
-				Sorted
-			</TabPanel>
-			<TabPanel activeTabKey={activeTab} tabKey="past">
-				Past
-			</TabPanel>
-		</div>
+			<PageBody>
+				<Container>
+					<TabPanel activeTabKey={activeTab} tabKey="upcoming">
+						Upcoming
+					</TabPanel>
+					<TabPanel activeTabKey={activeTab} tabKey="sorted">
+						Sorted
+					</TabPanel>
+					<TabPanel activeTabKey={activeTab} tabKey="past">
+						Past
+					</TabPanel>
+				</Container>
+			</PageBody>
+		</PageLayout>
 	);
 };
 

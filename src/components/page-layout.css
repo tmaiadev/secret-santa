@@ -1,0 +1,15 @@
+.page-layout {
+	display: grid;
+	grid-template-rows: min-content auto;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.page-body {
+	-webkit-overflow-scrolling: touch;
+	overflow: auto;
+	position: relative;
+}
