@@ -1,5 +1,16 @@
 .container {
 	padding: 0 16px;
 	margin: 0 auto;
-	max-width: 768px;
+	max-width: 640px;
+	box-sizing: border-box;
+}
+
+.container--full-height {
+	min-height: 100%;
+}
+
+.container--center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

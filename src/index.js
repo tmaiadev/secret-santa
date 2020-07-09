@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import { auth } from './helpers/firebase';
+import Container from './components/container';
 import Dashboard from './pages/dashboard';
 import Login from './pages/login';
+import Spinner from './components/spinner';
 
 import './index.css';
 
@@ -14,27 +16,33 @@ const App = () => {
 
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
-			setIsAuthReady(true);
 			user && setUser(user);
+			setIsAuthReady(true);
 		});
 	}, []);
 
 	return (
 		<Router>
 			<div className="app">
-				<Switch>
-					<Route path="/" exact>
-						<Dashboard />
-						{isAuthReady && !user && <Redirect to="/login" />}
-					</Route>
-					<Route path="/login" exact>
-						<Login />
-						{isAuthReady && user && <Redirect to="/" />}
-					</Route>
-					<Route path="/new">New</Route>
-					<Route path="/:id/edit">Edit</Route>
-					<Route path="/:id">Event</Route>
-				</Switch>
+				{isAuthReady ? (
+					<Switch>
+						<Route path="/" exact>
+							<Dashboard user={user} />
+							{isAuthReady && !user && <Redirect to="/login" />}
+						</Route>
+						<Route path="/login" exact>
+							<Login />
+							{isAuthReady && user && <Redirect to="/" />}
+						</Route>
+						<Route path="/new">New</Route>
+						<Route path="/:id/edit">Edit</Route>
+						<Route path="/:id">Event</Route>
+					</Switch>
+				) : (
+					<Container fullHeight center>
+						<Spinner />
+					</Container>
+				)}
 			</div>
 		</Router>
 	);

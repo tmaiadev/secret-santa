@@ -1,12 +1,20 @@
 .button {
+	align-items: center;
 	background-color: transparent;
 	border: 0;
 	color: var(--text-color-1);
 	cursor: pointer;
+	display: inline-flex;
 	font-size: 16px;
+	justify-content: center;
 	padding: 8px 16px;
 }
 
 .button:hover {
 	color: var(--text-color-2);
+}
+
+.button ion-icon {
+	margin-top: -2px;
+	margin-left: 2px;
 }
