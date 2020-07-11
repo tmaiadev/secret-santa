@@ -6,8 +6,10 @@ import './spinner.css';
 
 const Spinner = () => (
 	<div className="spinner">
-		<ion-icon name="hourglass-outline" />
-		<SrOnly>Loading...</SrOnly>
+		<div className="spinner__icon-wrapper">
+			<ion-icon name="hourglass-outline" />
+			<SrOnly>Loading...</SrOnly>
+		</div>
 	</div>
 );
 

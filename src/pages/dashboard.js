@@ -26,11 +26,25 @@ const TABS = [
 	}
 ];
 
+const orderByDateAsc = (a, b) => (a.datetime > b.datetime ? 1 : 0);
+const filterUpcoming = ({ datetime }) => datetime >= new Date();
+const filterSorted = ({ sorted }) => !!sorted;
+const filterPast = ({ datetime }) => datetime < new Date();
+
+const NoEvents = () => (
+	<Container center spread>
+		No events.
+	</Container>
+);
+
 const Dashboard = ({ user }) => {
 	const [ activeTab, setActiveTab ] = useState(TABS[0].key);
 	const [ showSpinner, setShowSpinner ] = useState(false);
 	const [ events, setEvents ] = useState([]);
 	const [ error, setError ] = useState(false);
+	const upcomingEvents = [ ...events ].filter(filterUpcoming);
+	const sortedEvents = [ ...events ].filter(filterSorted);
+	const pastEvents = [ ...events ].filter(filterPast);
 
 	const getEvents = useCallback(
 		async () => {
@@ -51,7 +65,7 @@ const Dashboard = ({ user }) => {
 					})
 				);
 
-				setEvents(events);
+				setEvents(events.sort(orderByDateAsc));
 			} catch (_) {
 				setError(true);
 			} finally {
@@ -74,38 +88,36 @@ const Dashboard = ({ user }) => {
 				<Tabs activeTabKey={activeTab} tabs={TABS} onChange={setActiveTab} label="Filters" />
 			</Header>
 			<PageBody>
-				<div className="dashboard-page">
-					<Container fullHeight center={error || showSpinner}>
-						{error || showSpinner ? (
-							<div className="dashboard-page__alert-container">
-								{error ? (
-									<div className="dashboard-page__alert">
-										<div>An error has occurred. Check your Internet connection and try again.</div>
-										<div>
-											<Button onClick={getEvents}>
-												Retry <ion-icon name="refresh-outline" />
-											</Button>
-										</div>
-									</div>
-								) : (
-									<Spinner />
-								)}
+				{error || showSpinner ? (
+					<Fragment>
+						{error ? (
+							<div className="dashboard-page__alert">
+								<div>An error has occurred. Check your Internet connection and try again.</div>
+								<div>
+									<Button onClick={getEvents}>
+										Retry <ion-icon name="refresh-outline" />
+									</Button>
+								</div>
 							</div>
 						) : (
-							<Fragment>
-								<TabPanel activeTabKey={activeTab} tabKey="upcoming">
-									{events.toString()}
-								</TabPanel>
-								<TabPanel activeTabKey={activeTab} tabKey="sorted">
-									Sorted
-								</TabPanel>
-								<TabPanel activeTabKey={activeTab} tabKey="past">
-									Past
-								</TabPanel>
-							</Fragment>
+							<Container center spread>
+								<Spinner />
+							</Container>
 						)}
-					</Container>
-				</div>
+					</Fragment>
+				) : (
+					<Fragment>
+						<TabPanel activeTabKey={activeTab} tabKey="upcoming">
+							<NoEvents />
+						</TabPanel>
+						<TabPanel activeTabKey={activeTab} tabKey="sorted">
+							<NoEvents />
+						</TabPanel>
+						<TabPanel activeTabKey={activeTab} tabKey="past">
+							<NoEvents />
+						</TabPanel>
+					</Fragment>
+				)}
 			</PageBody>
 		</PageLayout>
 	);

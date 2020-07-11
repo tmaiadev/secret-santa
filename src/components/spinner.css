@@ -1,5 +1,9 @@
 .spinner {
 	display: inline;
+}
+
+.spinner__icon-wrapper {
+	display: inline;
 	animation-name: spinnerAnimation;
 	animation-duration: 3s;
 	animation-fill-mode: both;

@@ -1,19 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import Container from './container';
 import Logo from './logo';
 
 import './header.css';
 
 const Header = ({ children }) => (
 	<div className="header">
-		<Container>
+		<div className="header__content">
 			<div className="header__logo">
 				<Logo />
 			</div>
 			<div className="header__action">{children}</div>
-		</Container>
+		</div>
 	</div>
 );
+
+Header.propTypes = {
+	children: PropTypes.node.isRequired
+};
 
 export default Header;

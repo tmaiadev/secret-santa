@@ -18,6 +18,7 @@
 	--text-color-1: #202020;
 	--text-color-2: #404040;
 	--text-color-3: #606060;
+	--max-width: 640px;
 
 	background-color: var(--background-color);
 	color: var(--text-color-1);

@@ -2,15 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import classNameBuilder from '../helpers/classNameBuilder';
+
 import './container.css';
 
-const Container = ({ children, fullHeight, center }) => (
-	<div
-		className={classNameBuilder('container', {
-			'container--full-height': fullHeight,
-			'container--center': center
-		})}
-	>
+const Container = ({ center, children, spread }) => (
+	<div className={classNameBuilder('container', { 'container--spread': spread, 'container--center': center })}>
 		{children}
 	</div>
 );
@@ -18,7 +14,7 @@ const Container = ({ children, fullHeight, center }) => (
 Container.propTypes = {
 	center: PropTypes.bool,
 	children: PropTypes.node.isRequired,
-	fullHeight: PropTypes.bool
+	spread: PropTypes.bool
 };
 
 export default Container;

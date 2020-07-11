@@ -1,16 +1,13 @@
-.container {
-	padding: 0 16px;
-	margin: 0 auto;
-	max-width: 640px;
-	box-sizing: border-box;
-}
-
-.container--full-height {
-	min-height: 100%;
-}
-
 .container--center {
-	display: flex;
 	align-items: center;
+	display: flex;
 	justify-content: center;
+}
+
+.container--spread {
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
 }

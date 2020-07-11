@@ -1,19 +1,6 @@
 .dashboard-page {
-	padding: 16px 0;
-}
-
-.dashboard-page__alert-container {
-	align-items: center;
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	justify-content: center;
-	left: 0;
-	padding: 0 16px;
-	position: absolute;
-	top: 0;
-	width: 100%;
+	padding-top: 16px;
+	padding-bottom: 16px;
 }
 
 .dashboard-page__alert {

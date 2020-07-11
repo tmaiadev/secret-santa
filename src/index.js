@@ -39,7 +39,7 @@ const App = () => {
 						<Route path="/:id">Event</Route>
 					</Switch>
 				) : (
-					<Container fullHeight center>
+					<Container center spread>
 						<Spinner />
 					</Container>
 				)}

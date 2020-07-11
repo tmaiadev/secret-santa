@@ -9,7 +9,11 @@ PageLayout.propTypes = {
 	children: PropTypes.arrayOf(PropTypes.node).isRequired
 };
 
-export const PageBody = ({ children }) => <div className="page-body">{children}</div>;
+export const PageBody = ({ children }) => (
+	<div className="page-body">
+		<div className="page-body__content">{children}</div>
+	</div>
+);
 
 PageBody.propTypes = {
 	children: PropTypes.oneOfType([ PropTypes.arrayOf(PropTypes.node), PropTypes.node ]).isRequired
