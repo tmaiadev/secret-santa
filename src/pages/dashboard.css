@@ -9,3 +9,9 @@
 	grid-gap: 16px;
 	text-align: center;
 }
+
+.dashboard-page__new-button-wrapper {
+	bottom: 16px;
+	position: absolute;
+	right: 16px;
+}

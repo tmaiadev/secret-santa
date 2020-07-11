@@ -5,8 +5,10 @@ import { db } from '../helpers/firebase';
 import Button from '../components/button';
 import Container from '../components/container';
 import Header from '../components/header';
+import Link from '../components/link';
 import PageLayout, { PageBody } from '../components/page-layout';
 import Spinner from '../components/spinner';
+import SrOnly from '../components/sr-only';
 import Tabs, { TabPanel } from '../components/tabs';
 
 import './dashboard.css';
@@ -118,6 +120,12 @@ const Dashboard = ({ user }) => {
 						</TabPanel>
 					</Fragment>
 				)}
+				<div className="dashboard-page__new-button-wrapper">
+					<Link href="/new" filled round>
+						<ion-icon name="add-outline" />
+						<SrOnly>Add New Event</SrOnly>
+					</Link>
+				</div>
 			</PageBody>
 		</PageLayout>
 	);
