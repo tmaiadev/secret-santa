@@ -23,3 +23,18 @@
 	justify-content: center;
 	height: 40px;
 }
+
+.header-nav {
+	width: 100%;
+}
+
+.header-nav__ul {
+	width: 100%;
+	display: flex;
+	list-style: none;
+	padding: 0;
+}
+
+.header-nav__li:first-child {
+	margin-right: auto;
+}

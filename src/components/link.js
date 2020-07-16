@@ -1,22 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link as RLink } from 'react-router-dom';
 
 import classNameBuilder from '../helpers/classNameBuilder';
 
 import './link.css';
 
 const Link = ({ children, filled, href, round, target }) => (
-	<a
-		href={href}
+	<RLink
+		to={href}
 		className={classNameBuilder('link', {
 			'link--filled': filled,
 			'link--round': round
 		})}
-		target={target}
 		rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+		target={target}
 	>
 		{children}
-	</a>
+	</RLink>
 );
 
 Link.propTypes = {

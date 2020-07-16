@@ -1,9 +1,15 @@
 .spinner {
-	display: inline;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
 }
 
 .spinner__icon-wrapper {
-	display: inline;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
 	animation-name: spinnerAnimation;
 	animation-duration: 3s;
 	animation-fill-mode: both;

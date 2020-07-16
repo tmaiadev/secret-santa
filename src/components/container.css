@@ -11,3 +11,7 @@
 	top: 0;
 	width: 100%;
 }
+
+.container--text-right {
+	text-align: right;
+}

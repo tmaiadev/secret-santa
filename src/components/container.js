@@ -5,8 +5,14 @@ import classNameBuilder from '../helpers/classNameBuilder';
 
 import './container.css';
 
-const Container = ({ center, children, spread }) => (
-	<div className={classNameBuilder('container', { 'container--spread': spread, 'container--center': center })}>
+const Container = ({ center, children, spread, textRight }) => (
+	<div
+		className={classNameBuilder('container', {
+			'container--spread': spread,
+			'container--center': center,
+			'container--text-right': textRight
+		})}
+	>
 		{children}
 	</div>
 );
@@ -14,7 +20,8 @@ const Container = ({ center, children, spread }) => (
 Container.propTypes = {
 	center: PropTypes.bool,
 	children: PropTypes.node.isRequired,
-	spread: PropTypes.bool
+	spread: PropTypes.bool,
+	textRight: PropTypes.bool
 };
 
 export default Container;

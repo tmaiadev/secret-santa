@@ -1,18 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import classNameBuilder from '../helpers/classNameBuilder';
+
 import './button.css';
 
-const Button = ({ children, onClick, disabled }) => (
-	<button className="button" onClick={onClick} disabled={disabled}>
+const Button = ({ children, filled, onClick, disabled, type }) => (
+	<button
+		className={classNameBuilder('button', { 'button--filled': filled })}
+		disabled={disabled}
+		onClick={onClick}
+		type={type}
+	>
 		{children}
 	</button>
 );
 
 Button.propTypes = {
 	children: PropTypes.node.isRequired,
-	onClick: PropTypes.func.isRequired,
-	disabled: PropTypes.bool
+	disabled: PropTypes.bool,
+	filled: PropTypes.bool,
+	onClick: PropTypes.func,
+	type: PropTypes.oneOf([ 'button', 'submit' ])
 };
 
 export default Button;

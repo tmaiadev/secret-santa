@@ -6,6 +6,7 @@ import { auth } from './helpers/firebase';
 import Container from './components/container';
 import Dashboard from './pages/dashboard';
 import Login from './pages/login';
+import NewEvent from './pages/new';
 import Spinner from './components/spinner';
 
 import './index.css';
@@ -28,13 +29,16 @@ const App = () => {
 					<Switch>
 						<Route path="/" exact>
 							<Dashboard user={user} />
-							{isAuthReady && !user && <Redirect to="/login" />}
+							{!user && <Redirect to="/login" />}
 						</Route>
 						<Route path="/login" exact>
 							<Login />
-							{isAuthReady && user && <Redirect to="/" />}
+							{user && <Redirect to="/" />}
 						</Route>
-						<Route path="/new">New</Route>
+						<Route path="/new" exact>
+							<NewEvent user={user} />
+							{!user && <Redirect to="/" />}
+						</Route>
 						<Route path="/:id/edit">Edit</Route>
 						<Route path="/:id">Event</Route>
 					</Switch>

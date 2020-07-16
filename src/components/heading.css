@@ -1,0 +1,9 @@
+.heading {
+	display: block;
+	margin: 0;
+	font-weight: normal;
+}
+
+.heading--center {
+	text-align: center;
+}

@@ -28,10 +28,10 @@ const TABS = [
 	}
 ];
 
-const orderByDateAsc = (a, b) => (a.datetime > b.datetime ? 1 : 0);
-const filterUpcoming = ({ datetime }) => datetime >= new Date();
+const orderByDateAsc = (a, b) => (a.datetime.toDate() > b.datetime.toDate() ? 1 : 0);
+const filterUpcoming = ({ datetime }) => datetime.toDate() >= new Date();
 const filterSorted = ({ sorted }) => !!sorted;
-const filterPast = ({ datetime }) => datetime < new Date();
+const filterPast = ({ datetime }) => datetime.toDate() < new Date();
 
 const NoEvents = () => (
 	<Container center spread>
@@ -54,10 +54,8 @@ const Dashboard = ({ user }) => {
 			setShowSpinner(true);
 
 			try {
-				const querySnapshot = await db
-					.collection('events')
-					.where('participants', 'array-contains', user.uid)
-					.get();
+				const fieldPath = `participants.${user.uid}.displayName`;
+				const querySnapshot = await db.collection('events').where(fieldPath, '>=', '').get();
 				const events = [];
 
 				querySnapshot.forEach((doc) =>
@@ -110,13 +108,13 @@ const Dashboard = ({ user }) => {
 				) : (
 					<Fragment>
 						<TabPanel activeTabKey={activeTab} tabKey="upcoming">
-							<NoEvents />
+							{upcomingEvents.length === 0 ? <NoEvents /> : upcomingEvents.toString()}
 						</TabPanel>
 						<TabPanel activeTabKey={activeTab} tabKey="sorted">
-							<NoEvents />
+							{sortedEvents.length === 0 ? <NoEvents /> : sortedEvents.toString()}
 						</TabPanel>
 						<TabPanel activeTabKey={activeTab} tabKey="past">
-							<NoEvents />
+							{pastEvents.length === 0 ? <NoEvents /> : pastEvents.toString()}
 						</TabPanel>
 					</Fragment>
 				)}
