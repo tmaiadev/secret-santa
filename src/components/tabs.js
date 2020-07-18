@@ -56,7 +56,7 @@ const TabList = ({ activeTabKey, onChange, tabs }) => {
 			const el = tablistRef.current;
 
 			function onKeyDown(evt) {
-				const { key } = evt;
+				const { key, shiftKey } = evt;
 				const currTabIndex = tabs.findIndex(({ key }) => key === activeTabKey);
 				let nextTabIndex = currTabIndex;
 
@@ -82,11 +82,13 @@ const TabList = ({ activeTabKey, onChange, tabs }) => {
 						break;
 
 					case 'Tab':
-						const tabPanelId = `${tabs[currTabIndex].key}-tabpanel`;
-						const tab = document.getElementById(tabPanelId);
-						if (tab) {
-							evt.preventDefault();
-							tab.focus();
+						if (!shiftKey) {
+							const tabPanelId = `${tabs[currTabIndex].key}-tabpanel`;
+							const tab = document.getElementById(tabPanelId);
+							if (tab) {
+								evt.preventDefault();
+								tab.focus();
+							}
 						}
 						return;
 

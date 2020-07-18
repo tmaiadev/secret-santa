@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { db } from '../helpers/firebase';
 import Button from '../components/button';
+import classNameBuilder from '../helpers/classNameBuilder';
 import Container from '../components/container';
 import Header from '../components/header';
 import Link from '../components/link';
@@ -28,7 +30,7 @@ const TABS = [
 	}
 ];
 
-const orderByDateAsc = (a, b) => (a.datetime.toDate() > b.datetime.toDate() ? 1 : 0);
+const orderByDateAsc = (a, b) => (a.datetime.toDate() > b.datetime.toDate() ? 1 : -1);
 const filterUpcoming = ({ datetime }) => datetime.toDate() >= new Date();
 const filterSorted = ({ sorted }) => !!sorted;
 const filterPast = ({ datetime }) => datetime.toDate() < new Date();
@@ -37,6 +39,23 @@ const NoEvents = () => (
 	<Container center spread>
 		No events.
 	</Container>
+);
+
+const renderEventList = (events) => (
+	<div className="dashboard__event-list">
+		{events.map(({ id, datetime, name, participants, sorted }) => (
+			<RouterLink key={id} to={`/${id}`} className="event">
+				<div className="event__title">{name}</div>
+				<div className="event__date">{datetime.toDate().toLocaleString()}</div>
+				<div className="event__footer">
+					<div className="event__participants">{Object.keys(participants).length} participant(s)</div>
+					<div className={classNameBuilder('event__status', { 'event__status--sorted': sorted })}>
+						{sorted ? 'Sorted' : 'Not Sorted'}
+					</div>
+				</div>
+			</RouterLink>
+		))}
+	</div>
 );
 
 const Dashboard = ({ user }) => {
@@ -108,13 +127,13 @@ const Dashboard = ({ user }) => {
 				) : (
 					<Fragment>
 						<TabPanel activeTabKey={activeTab} tabKey="upcoming">
-							{upcomingEvents.length === 0 ? <NoEvents /> : upcomingEvents.toString()}
+							{upcomingEvents.length === 0 ? <NoEvents /> : renderEventList(upcomingEvents)}
 						</TabPanel>
 						<TabPanel activeTabKey={activeTab} tabKey="sorted">
-							{sortedEvents.length === 0 ? <NoEvents /> : sortedEvents.toString()}
+							{sortedEvents.length === 0 ? <NoEvents /> : renderEventList(sortedEvents)}
 						</TabPanel>
 						<TabPanel activeTabKey={activeTab} tabKey="past">
-							{pastEvents.length === 0 ? <NoEvents /> : pastEvents.toString()}
+							{pastEvents.length === 0 ? <NoEvents /> : renderEventList(pastEvents)}
 						</TabPanel>
 					</Fragment>
 				)}

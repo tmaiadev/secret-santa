@@ -12,6 +12,69 @@
 
 .dashboard-page__new-button-wrapper {
 	bottom: 16px;
-	position: absolute;
+	position: fixed;
 	right: 16px;
+}
+
+.dashboard__event-list {
+	margin-bottom: calc(50px + 16px);
+}
+
+.dashboard__event-list > *:not(:last-child) {
+	margin-bottom: 16px;
+}
+
+.event {
+	background-color: var(--surface-color-1);
+	border-radius: 4px;
+	box-shadow: 0px 2px 3px rgba(0, 0, 0, .3);
+	box-sizing: border-box;
+	color: var(--text-color-1);
+	cursor: pointer;
+	display: block;
+	margin-left: -16px;
+	padding: 16px;
+	text-decoration: none;
+	width: calc(100% + 32px);
+}
+
+.event:hover {
+	background-color: var(--surface-color-2);
+}
+
+.event > *:not(:last-child) {
+	margin-bottom: 4px;
+}
+
+.event__title {
+	display: block;
+	font-size: 24px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.event__date {
+	color: var(--text-color-2);
+}
+
+.event__footer {
+	display: grid;
+	grid-gap: 8px;
+	grid-template-columns: auto min-content;
+	font-size: 14px;
+}
+
+.event__participants {
+	color: var(--text-color-3);
+	white-space: nowrap;
+}
+
+.event__status {
+	color: orange;
+	white-space: nowrap;
+}
+
+.event__status--sorted {
+	color: green;
 }
